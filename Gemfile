@@ -25,8 +25,13 @@ gem 'jbuilder', '~> 2.7'
 gem 'bootsnap', '>= 1.4.2', require: false
 
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platforms: %i[mri mingw x64_mingw]
+  # Pry with Rails support
+  gem 'pry-rails'
+  # Step-by-step debugging and stack navigation - step, next, continue, finish, break
+  gem 'pry-byebug'
+  # Start a pry session whenever something goes wrong - try-again, play -l 5
+  gem 'pry-rescue'
+  # Rspec with Rails support
   gem 'rspec-rails'
 
   # ENV variables
