@@ -22,4 +22,29 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   it { is_expected.to validate_presence_of :email }
   it { is_expected.to validate_presence_of :password }
+  it { is_expected.to validate_uniqueness_of :email }
+
+  context 'when success' do
+    context 'when user has all correct attributes' do
+      it 'successfully creates the user' do
+        user = build(:user, email: 'example@email.com')
+
+        result = user.save
+
+        expect(result).to be_truthy
+      end
+    end
+  end
+
+  context 'when failure' do
+    context 'when email format is invalid' do
+      it 'does not create the user' do
+        user = build(:user, email: 'example.com')
+
+        result = user.save
+
+        expect(result).to be_falsy
+      end
+    end
+  end
 end
