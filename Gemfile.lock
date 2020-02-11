@@ -88,6 +88,10 @@ GEM
       activesupport (>= 4.2.0)
     i18n (1.8.2)
       concurrent-ruby (~> 1.0)
+    interactor (3.1.2)
+    interactor-rails (2.2.1)
+      interactor (~> 3.0)
+      rails (>= 4.2)
     interception (0.5)
     jaro_winkler (1.5.4)
     jbuilder (2.10.0)
@@ -242,6 +246,7 @@ DEPENDENCIES
   dotenv-rails
   factory_bot_rails
   faker
+  interactor-rails
   jbuilder (~> 2.7)
   listen (>= 3.0.5, < 3.2)
   pg (>= 0.18, < 2.0)

@@ -29,6 +29,9 @@ gem 'bootsnap', '>= 1.4.2', require: false
 # Annotate classes with schema and routes info
 gem 'annotate'
 
+# Business logic
+gem 'interactor-rails'
+
 group :development, :test do
   # Pry with Rails support
   gem 'pry-rails'
