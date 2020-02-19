@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Users
-  RSpec.describe Get, type: :action_controllerinteractor do
+  RSpec.describe Get, type: :interactor do
     subject(:context) { described_class.call(id: id) }
 
     let(:user) { create(:user) }

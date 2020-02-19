@@ -1,0 +1,36 @@
+# frozen_string_literal: true
+
+module Users
+  RSpec.describe Update, type: :interactor do
+    subject(:context) { described_class.call(id: id, attributes: attributes) }
+
+    let(:user) { create(:user) }
+    let(:id) { user.id }
+
+    context 'when attributes are valid' do
+      let(:attributes) { { first_name: 'Imani', last_name: 'Alpha' } }
+       
+      it 'succeeds' do
+        expect(context).to be_a_success
+      end
+       
+      it 'updates the user' do
+        expect { context; user.reload }.to change { user.first_name }.to attributes[:first_name]
+      end
+    end
+
+    context 'when attributes are invalid' do
+      let(:attributes) { { email: '@email.com' } }
+      let(:error_message) { "Validation failed: Email is invalid" }
+
+      it 'fails' do
+        expect(context).to be_a_failure
+      end
+
+      it 'returns an error message' do
+        expect(context.message).to eq error_message
+      end
+    end
+  end
+end
+ 
