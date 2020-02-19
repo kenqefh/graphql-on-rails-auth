@@ -38,7 +38,7 @@ RSpec.describe User, type: :model do
   context 'when failure' do
     context 'when email format is invalid' do
       it 'does not create the user' do
-        user = build(:user, email: 'example.com')
+        user = build(:user, email: '@example.com')
 
         result = user.save
 

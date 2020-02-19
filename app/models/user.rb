@@ -19,7 +19,6 @@
 
 class User < ApplicationRecord
   has_secure_password
-  VALID_EMAIL_REGEX = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i.freeze
 
-  validates :email, format: { with: VALID_EMAIL_REGEX }, presence: true, uniqueness: true
+  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }, presence: true, uniqueness: true
 end
