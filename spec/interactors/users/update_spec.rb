@@ -2,10 +2,9 @@
 
 module Users
   RSpec.describe Update, type: :interactor do
-    subject(:context) { described_class.call(id: id, attributes: attributes) }
+    subject(:context) { described_class.call(user: user, attributes: attributes) }
 
     let(:user) { create(:user) }
-    let(:id) { user.id }
 
     context 'when attributes are valid' do
       let(:attributes) { { first_name: 'Imani', last_name: 'Alpha' } }
