@@ -32,6 +32,8 @@ gem 'annotate'
 # Business logic
 gem 'interactor-rails'
 
+gem 'graphql'
+
 group :development, :test do
   # Pry with Rails support
   gem 'pry-rails'
@@ -66,3 +68,5 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
+
+gem 'graphiql-rails', group: :development
