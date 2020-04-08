@@ -19,14 +19,12 @@ module Users
 
       context 'when given invalid attributes' do
         let(:attributes) { { email: 'example@email.com', password: '' } }
-        let(:error_message) { ["Validation failed: Password can't be blank"] }
-
         it 'fails' do
           expect(context).to be_a_failure
         end
 
         it 'returns a failure message' do
-          expect(context.messages).to eq error_message
+          expect(context.errors.messages[:password]).to eq ["can't be blank"]
         end
       end
     end

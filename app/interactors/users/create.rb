@@ -5,9 +5,13 @@ module Users
     delegate :attributes, to: :context
 
     def call
-      context.user = User.create!(**attributes)
-    rescue ActiveRecord::RecordInvalid => e
-      context.fail! messages: [e.message]
+      user = User.create(**attributes)
+
+      if user.persisted?
+        context.user = user
+      else
+        context.fail! errors: user.errors
+      end
     end
   end
 end
