@@ -10,12 +10,12 @@ class Mutations::Users::Create < Mutations::BaseMutation
   field :errors, Types::ValidationErrorsType, null: true
 
   def resolve(**args)
-    result_context = ::Users::Create.call(attributes: *args)
+    result_context = ::Users::Create.call(attributes: args)
 
     if result_context.success?
       { user: result_context.user, errors: nil }
     else
-      { user: nil, errors: result_context.errors }
+      { errors: result_context.errors }
     end
   end
 end
