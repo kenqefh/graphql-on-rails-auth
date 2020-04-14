@@ -5,9 +5,11 @@ module Users
     delegate :user, :attributes, to: :context
 
     def call
-      context.user = user.update! attributes
-    rescue ActiveRecord::RecordInvalid => e
-      context.fail! message: e.message
+      if user.update attributes
+        context.user = user
+      else
+        context.fail! messages: user.errors.full_messages
+      end
     end
   end
 end
