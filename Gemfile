@@ -41,6 +41,8 @@ group :development, :test do
   gem 'pry-byebug'
   # Start a pry session whenever something goes wrong - try-again, play -l 5
   gem 'pry-rescue'
+  # Browse Ruby documentation inside pry
+  gem 'pry-doc'
   # Rspec with Rails support
   gem 'rspec-rails'
 
