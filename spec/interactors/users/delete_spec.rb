@@ -17,6 +17,12 @@ module Users
 
           expect(user.destroyed?).to eq true
         end
+
+        it 'returns a success message' do
+          context
+
+          expect(context.message).to eq "You have successfully deleted your account"
+        end
       end
 
       context 'when it fails' do
@@ -37,7 +43,7 @@ module Users
         end
 
         it 'returns an error message' do
-          expect(context.message).to eq error_message
+          expect(context.errors).to eq error_message
         end
       end
     end
