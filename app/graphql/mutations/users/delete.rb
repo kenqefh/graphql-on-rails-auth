@@ -10,12 +10,11 @@ class Mutations::Users::Delete < Mutations::BaseMutation
     user = User.find(user_id)
 
     result = ::Users::Delete.call(user: user)
-    binding.pry
 
     if result.success?
       { message: result.message }
     else
-      { errors: result.errors.messages }
+      { errors: result.errors }
     end
   end
 end

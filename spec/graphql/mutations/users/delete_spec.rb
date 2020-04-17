@@ -17,15 +17,22 @@ RSpec.describe Mutations::Users::Delete, type: :request do
         json = JSON.parse(response.body)
         data = json.dig('data', 'deleteUser')
 
-        binding.pry
         expect(data['message']).to eq "You have successfully deleted your account"
         expect(data['errors']).to be_nil
       end
     end
      
     context 'when it fails' do
+      let(:error_message) { ['Your account could not be deleted at this time'] }
+      let(:result) { Interactor::Context.new(errors: error_message) }
+       
       before do
-        allow(user).to receive(:destroy!) and_return(false)
+        allow(::Users::Delete).to receive(:call)
+          .with(user: user)
+          .and_return(result)
+
+        allow(result).to receive(:success?).and_return(false)
+        allow(result).to receive(:failure?).and_return(true)
       end
        
       it 'does not delete the user' do
@@ -34,12 +41,10 @@ RSpec.describe Mutations::Users::Delete, type: :request do
         json = JSON.parse(response.body)
         data = json.dig('data', 'deleteUser')
 
-        binding.pry
         expect(data['message']).to be_nil
-        expect(data['errors']).to eq ["Couldn't be destroyed"]
+        expect(data['errors']).to eq error_message
       end
     end
-  end
   end
 
   def query_string
