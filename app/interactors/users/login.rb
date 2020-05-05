@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 
 class Users::Login < BaseInteractor
-  delegate :credentials, to: :context
+  delegate :email, :password, to: :context
 
   def call
-    user = User.find_by_email(credentials[:email])
+    return nil if password.empty?
+
+    user = User.find_by_email(email)
 
     if user
-      if user.authenticate(credentials[:password])
+      if user.authenticate(password)
         context.message = 'Successfully logged in'
         context.user = user
       else

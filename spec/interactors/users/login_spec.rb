@@ -2,7 +2,7 @@
 
 RSpec.describe Users::Login, type: :interactor do
   subject(:login) do
-    described_class.call(credentials: credentials)
+    described_class.call(email: credentials[:email], password: credentials[:password])
   end
 
   let(:user) { create(:user) }
