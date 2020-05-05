@@ -6,6 +6,7 @@ class Mutations::Users::Login < Mutations::BaseMutation
 
   field :user, Types::UserType, null: true
   field :message, String, null: true
+  field :token, String, null: true
 
   def resolve(email:, password:)
     return unless email && password
@@ -14,7 +15,8 @@ class Mutations::Users::Login < Mutations::BaseMutation
 
     {
       user: result.user,
-      message: result.message
+      message: result.message,
+      token: result.token
     }
   end
 end

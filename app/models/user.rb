@@ -21,4 +21,11 @@ class User < ApplicationRecord
   has_secure_password
 
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }, presence: true, uniqueness: true
+
+  def generate_token
+    payload = { id: id, exp: 30.days.from_now.to_i }
+    hmac_secret = Rails.application.secrets.secret_key_base
+
+    JWT.encode(payload, hmac_secret)
+  end
 end

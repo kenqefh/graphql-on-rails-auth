@@ -6,17 +6,18 @@ class Users::Login < BaseInteractor
   def call
     return nil if password.empty?
 
-    user = User.find_by_email(email)
+    user = User.find_by(email: email)
 
     if user
       if user.authenticate(password)
         context.message = 'Successfully logged in'
+        context.token = user.generate_token
         context.user = user
       else
-        context.message = 'That seems like a wrong password'
+        context.fail! message: 'That seems like a wrong password'
       end
     else
-      context.message = 'Could not find an account with that email, please sign up instead'
+      context.fail! message: 'Could not find an account with that email, please sign up instead'
     end
   end
 end

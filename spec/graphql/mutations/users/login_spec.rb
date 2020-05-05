@@ -9,16 +9,17 @@ RSpec.describe Mutations::Users::Login, type: :request do
 
   describe '.resolve' do
     context 'valid credentials' do
-      let(:variables) {{ email: user.email, password: user.password }}
+      let(:variables) { { email: user.email, password: user.password } }
 
       it 'succeeds' do
-        execute 
-        
+        execute
+
         json = JSON.parse(response.body)
         data = json.dig('data', 'loginUser')
 
         expect(data['user']).not_to be_empty
         expect(data['message']).to eq 'Successfully logged in'
+        expect(data['token']).not_to be_nil
       end
     end
 
@@ -26,27 +27,29 @@ RSpec.describe Mutations::Users::Login, type: :request do
       let(:variables) { { email: user.email, password: 'wrong password' } }
 
       it 'fails' do
-        execute 
-        
+        execute
+
         json = JSON.parse(response.body)
         data = json.dig('data', 'loginUser')
 
         expect(data['message']).to eq 'That seems like a wrong password'
         expect(data['user']).to be_nil
+        expect(data['token']).to be_nil
       end
     end
-     
+
     context 'email not found' do
       let(:variables) { { email: 'arianna@ari.com', password: user.password } }
 
       it 'fails' do
-        execute 
-        
+        execute
+
         json = JSON.parse(response.body)
         data = json.dig('data', 'loginUser')
 
         expect(data['message']).to eq 'Could not find an account with that email, please sign up instead'
         expect(data['user']).to be_nil
+        expect(data['token']).to be_nil
       end
     end
   end
@@ -57,6 +60,7 @@ RSpec.describe Mutations::Users::Login, type: :request do
         loginUser(input: { email: $email, password: $password }) {
           user { email },
           message
+          token
         }
       }
     GRAPHQL
