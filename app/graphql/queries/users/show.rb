@@ -10,11 +10,9 @@ module Queries
       def resolve(id:)
         result = ::Users::Get.call(id: id)
 
-        if allowed_to? :show?, result.user
-          result.user
-        else
-          raise GraphQL::ExecutionError, 'You are not allowed to view this user'
-        end
+        authorize! result.user, to: :show?
+
+        result.user
       end
     end
   end

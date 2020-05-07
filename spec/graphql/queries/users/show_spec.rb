@@ -32,7 +32,7 @@ module Queries
             error_message =  execute.dig('errors').first['message']
 
             expect(data).to be_nil
-            expect(error_message).to eq 'You are not allowed to view this user'
+            expect(error_message).to eq 'You are not authorized to perform this action'
           end
         end
       end
