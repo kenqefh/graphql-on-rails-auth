@@ -7,15 +7,18 @@ class Mutations::Users::Create < Mutations::BaseMutation
   argument :password, String, required: true
 
   field :user, Types::UserType, null: true
+  field :message, String, null: true
+  field :token, String, null: true
   field :errors, Types::ValidationErrorsType, null: true
 
   def resolve(**args)
-    result_context = ::Users::Create.call(attributes: args)
+    result = ::Users::Create.call(attributes: args)
 
-    if result_context.success?
-      { user: result_context.user, errors: nil }
-    else
-      { errors: result_context.errors }
-    end
+    {
+      user: result.user,
+      message: result.message,
+      token: result.token,
+      errors: result.errors
+    }
   end
 end

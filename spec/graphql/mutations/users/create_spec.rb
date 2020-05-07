@@ -4,32 +4,37 @@ RSpec.describe Mutations::Users::Create, type: :request do
   describe '.resolve' do
     context 'valid params' do
       it 'creates a new user' do
-        expect { 
+        expect do
           post '/graphql', params: { query: query_string, variables: variables }
-        }.to change(User, :count).by 1
+        end.to change(User, :count).by 1
       end
 
-      it 'returns the user object' do
+      it 'returns the user token, and success message' do
         execute = post '/graphql', params: { query: query_string, variables: variables }
 
         parsed_json = JSON.parse(response.body)
         data = parsed_json['data']['createUser']
 
         expect(data['user']).to include(
-          'fullName' => "#{variables[:firstName]} " + "#{variables[:lastName]}",
-          'email'    => variables[:email]
+          'fullName' => "#{variables[:firstName]} " + variables[:lastName].to_s,
+          'email' => variables[:email]
         )
+        expect(data['token']).not_to be_nil
+        expect(data['message']).not_to be_nil
       end
     end
 
     context 'invalid params' do
-      it ' returns an error message' do
+      it 'fails' do
         execute = post '/graphql', params: { query: query_string, variables: invalid_variables }
 
         parsed_json = JSON.parse(response.body)
         data = parsed_json['data']['createUser']
 
         expect(data.dig('errors', 'fullMessages')).to eq "[\"Email is invalid\", \"Email can't be blank\"]"
+        expect(data['user']).to be_nil
+        expect(data['message']).to be_nil
+        expect(data['token']).to be_nil
       end
     end
   end
@@ -40,14 +45,10 @@ RSpec.describe Mutations::Users::Create, type: :request do
         createUser(input: {
         firstName: $firstName, lastName: $lastName, email: $email, password: $password
         }) {
-          user {
-            fullName
-            email
-          },
-          errors {
-            details
-            fullMessages
-          }
+          user { fullName email },
+          message,
+          token,
+          errors { details fullMessages }
         }
       }
     GRAPHQL
@@ -61,7 +62,7 @@ RSpec.describe Mutations::Users::Create, type: :request do
       password: '#2435$52736^836w'
     }
   end
-   
+
   def invalid_variables
     {
       firstName: 'Mac',
