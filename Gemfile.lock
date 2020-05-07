@@ -1,6 +1,10 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    action_policy (0.4.3)
+    action_policy-graphql (0.4.0)
+      action_policy (>= 0.3.0)
+      graphql (>= 1.9.3)
     actioncable (6.0.2.1)
       actionpack (= 6.0.2.1)
       nio4r (~> 2.0)
@@ -235,6 +239,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  action_policy-graphql
   annotate
   bcrypt (~> 3.1.7)
   bootsnap (>= 1.4.2)

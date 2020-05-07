@@ -17,19 +17,17 @@ gem 'jwt'
 # gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password
 gem 'bcrypt', '~> 3.1.7'
-
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
-
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
-
 # Annotate classes with schema and routes info
 gem 'annotate'
-
 # Business logic
 gem 'interactor-rails'
-
+# API Authorization
+gem 'action_policy-graphql'
+# API
 gem 'graphql'
 
 group :development, :test do
