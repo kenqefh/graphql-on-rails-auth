@@ -21,17 +21,17 @@ module Users
         it 'returns a success message' do
           context
 
-          expect(context.message).to eq "You have successfully deleted your account"
+          expect(context.message).to eq 'You have successfully deleted your account'
         end
       end
 
       context 'when it fails' do
         let(:error_message) { 'Record Not Destroyed' }
-         
+
         before do
           allow(user).to receive(:destroy!).and_raise ActiveRecord::RecordNotDestroyed.new error_message
         end
-         
+
         it 'fails' do
           expect(context).to be_a_failure
         end
@@ -44,6 +44,7 @@ module Users
 
         it 'returns an error message' do
           expect(context.errors).to eq error_message
+          expect(context.message).to be_nil
         end
       end
     end

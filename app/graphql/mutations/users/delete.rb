@@ -5,16 +5,17 @@ class Mutations::Users::Delete < Mutations::BaseMutation
 
   field :message, String, null: true
   field :errors, [String], null: true
-   
-  def resolve(user_id: )
+
+  def resolve(user_id:)
     user = User.find(user_id)
+
+    authorize! user, to: :destroy?
 
     result = ::Users::Delete.call(user: user)
 
-    if result.success?
-      { message: result.message }
-    else
-      { errors: result.errors }
-    end
+    {
+      message: result.message,
+      errors: result.errors
+    }
   end
 end

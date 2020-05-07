@@ -8,7 +8,6 @@ RSpec.describe Mutations::Users::Update, type: :request do
   end
 
   let(:user) { create(:user) }
-  let(:unauthorized_user) { create(:user) }
 
   describe '.resolve' do
     context 'authorized' do

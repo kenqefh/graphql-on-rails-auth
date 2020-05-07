@@ -8,7 +8,7 @@ module Users
       user.destroy!
       context.message = 'You have successfully deleted your account'
     rescue ActiveRecord::RecordNotDestroyed => e
-      context.fail! errors: e.message
+      context.fail! errors: e.message, message: nil
     end
   end
 end
