@@ -12,12 +12,13 @@ class Mutations::Users::Update < Mutations::BaseMutation
   def resolve(user_id:, **args)
     user = User.find(user_id)
 
+    authorize! user, to: :update?
+
     result = ::Users::Update.call(user: user, attributes: args)
 
-    if result.success?
-      { user: result.user }
-    else
-      { errors: result.messages }
-    end
+    {
+      user: result.user,
+      errors: result.messages
+    }
   end
 end

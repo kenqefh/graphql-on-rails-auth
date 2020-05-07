@@ -8,7 +8,7 @@ module Users
       if user.update attributes
         context.user = user
       else
-        context.fail! messages: user.errors.full_messages
+        context.fail! messages: user.errors.full_messages, user: nil
       end
     end
   end
