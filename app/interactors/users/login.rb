@@ -12,6 +12,7 @@ class Users::Login < BaseInteractor
       if user.authenticate(password)
         context.message = 'Successfully logged in'
         context.token = user.generate_token
+        ENV['JWT_TOKEN'] = context.token
         context.user = user
       else
         context.fail! message: 'That seems like a wrong password'

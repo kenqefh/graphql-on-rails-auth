@@ -10,6 +10,8 @@ class ApplicationController < ActionController::Base
   def authenticate_user
     return if @current_user
 
+    set_headers_for_development
+
     if request.headers['Authorization'].present?
       authenticate_or_request_with_http_token do |token|
         jwt_payload = JWT.decode(token, Rails.application.secrets.secret_key_base).first
@@ -31,5 +33,13 @@ class ApplicationController < ActionController::Base
 
   def authenticate_user!
     head :unauthorized unless signed_in?
+  end
+
+  private
+
+  def set_headers_for_development
+    if Rails.env.development? && ENV['JWT_TOKEN'].present?
+      request.headers['Authorization'] = "Token #{ENV['JWT_TOKEN']}"
+    end
   end
 end

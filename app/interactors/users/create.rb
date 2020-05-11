@@ -11,6 +11,7 @@ module Users
         context.user = user
         context.message = 'You have successfully signed up'
         context.token = user.generate_token
+        ENV['JWT_TOKEN'] = context.token
       else
         context.fail! errors: user.errors
       end
