@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class UserApiTestSchema < GraphQL::Schema
+class GraphqlOnRailsSchema < GraphQL::Schema
   mutation(Types::MutationType)
   query(Types::QueryType)
 

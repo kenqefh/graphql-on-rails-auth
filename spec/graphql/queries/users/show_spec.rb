@@ -4,7 +4,7 @@ module Queries
   module Users
     RSpec.describe Show do
       subject(:execute) do
-        UserApiTestSchema.execute(query, variables: variables, context: context)
+        GraphqlOnRailsSchema.execute(query, variables: variables, context: context)
       end
 
       let(:user) { create(:user) }
