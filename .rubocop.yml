@@ -21,3 +21,6 @@ Lint/AmbiguousBlockAssociation:
 
 Style/Documentation:
   Enabled: false
+
+RSpec/ImplicitExpect:
+  EnforcedStyle: should
