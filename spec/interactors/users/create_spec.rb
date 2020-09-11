@@ -33,7 +33,11 @@ module Users
         end
 
         it 'returns a failure message' do
-          expect(sign_up.errors.messages[:password]).to eq ["can't be blank"]
+          expect(sign_up.errors).to eq ["Password can't be blank"]
+        end
+
+        it 'returns nil user' do
+          expect(sign_up.user).to eq nil
         end
       end
     end

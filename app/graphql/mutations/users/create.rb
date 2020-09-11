@@ -9,7 +9,7 @@ class Mutations::Users::Create < Mutations::BaseMutation
   field :user, Types::UserType, null: true
   field :message, String, null: true
   field :token, String, null: true
-  field :errors, Types::ValidationErrorsType, null: true
+  field :errors, [String], null: true
 
   def resolve(**args)
     result = ::Users::Create.call(attributes: args)

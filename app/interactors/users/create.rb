@@ -13,7 +13,7 @@ module Users
         context.token = user.generate_token
         ENV['JWT_TOKEN'] = context.token
       else
-        context.fail! errors: user.errors
+        context.fail! errors: user.errors.full_messages, user: nil
       end
     end
   end

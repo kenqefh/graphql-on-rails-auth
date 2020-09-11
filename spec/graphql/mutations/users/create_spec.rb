@@ -31,7 +31,7 @@ RSpec.describe Mutations::Users::Create, type: :request do
         parsed_json = JSON.parse(response.body)
         data = parsed_json['data']['createUser']
 
-        expect(data.dig('errors', 'fullMessages')).to eq "[\"Email is invalid\", \"Email can't be blank\"]"
+        expect(data['errors']).to eq ['Email is invalid', "Email can't be blank"]
         expect(data['user']).to be_nil
         expect(data['message']).to be_nil
         expect(data['token']).to be_nil
@@ -48,7 +48,7 @@ RSpec.describe Mutations::Users::Create, type: :request do
           user { fullName email },
           message,
           token,
-          errors { details fullMessages }
+          errors
         }
       }
     GRAPHQL
