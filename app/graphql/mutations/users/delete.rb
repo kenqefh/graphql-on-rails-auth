@@ -7,7 +7,7 @@ class Mutations::Users::Delete < Mutations::BaseMutation
   field :errors, [String], null: true
 
   def resolve(user_id:)
-    user = User.find(user_id)
+    user = ::Users::Get.call(id: user_id).user
 
     authorize! user, to: :destroy?
 
