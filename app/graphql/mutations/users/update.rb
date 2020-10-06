@@ -10,7 +10,7 @@ class Mutations::Users::Update < Mutations::BaseMutation
   field :errors, [String], null: true
 
   def resolve(user_id:, **args)
-    user = User.find(user_id)
+    user = ::Users::Get.call(id: user_id).user
 
     authorize! user, to: :update?
 
