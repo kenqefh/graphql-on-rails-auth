@@ -18,6 +18,8 @@
 #
 
 RSpec.describe User, type: :model do
+  include ActiveSupport::Testing::TimeHelpers
+
   it { should have_secure_password }
   it { should validate_presence_of :email }
   it { should validate_uniqueness_of :email }
@@ -46,6 +48,21 @@ RSpec.describe User, type: :model do
 
         expect(result).to be_falsy
       end
+    end
+  end
+
+  describe '.generate_token' do
+    let(:user) { build_stubbed(:user) }
+    let(:key) { Rails.application.secrets.secret_key_base }
+
+    it 'returns a JWT with valid claims' do
+      token = user.generate_token
+
+      claims = JWT.decode(token, key).first
+      freeze_time
+
+      expect(claims['id']).to eq user.id
+      expect(claims['exp']).to eq 30.days.from_now.to_i
     end
   end
 end
