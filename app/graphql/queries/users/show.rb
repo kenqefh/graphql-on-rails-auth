@@ -10,8 +10,6 @@ module Queries
       def resolve(id:)
         result = ::Users::Get.call(id: id)
 
-        authorize! result.user, to: :show?
-
         result.user
       end
     end

@@ -13,11 +13,9 @@ class UserPolicy < ApplicationPolicy
     self?
   end
 
-  # Scoping
-  # See https://actionpolicy.evilmartians.io/#/scoping
-  #
-  # relation_scope do |relation|
-  #   next relation if user.admin?
-  #   relation.where(user: user)
-  # end
+  private
+
+  def self?
+    record.id == user.id
+  end
 end
