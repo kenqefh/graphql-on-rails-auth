@@ -8,13 +8,12 @@ RSpec.describe Mutations::Users::Delete, type: :request do
   end
 
   let(:user) { create(:user) }
+  let(:unauthorized_user) { create(:user) }
+  let(:token) { user.generate_token }
+  let(:variables) { { userId: user.id } }
 
   describe '.resolve' do
-    let(:variables) { { userId: user.id } }
-
     context 'authorized' do
-      let(:token) { user.generate_token }
-
       it 'deletes the user' do
         execute
 
@@ -27,7 +26,6 @@ RSpec.describe Mutations::Users::Delete, type: :request do
     end
 
     context 'when it fails' do
-      let(:token) { user.generate_token }
       let(:error_message) { ['Your account could not be deleted at this time'] }
       let(:result) { Interactor::Context.new(errors: error_message) }
 
@@ -51,7 +49,23 @@ RSpec.describe Mutations::Users::Delete, type: :request do
       end
     end
 
-    context 'when unauthorized' do
+    context 'unauthorized' do
+      let(:variables) { { userId: unauthorized_user.id } }
+
+      it 'returns error message' do
+        execute
+
+        json = JSON.parse(response.body)
+
+        data = json.dig('data', 'updateUser')
+        error_message = json.dig('errors').first['message']
+
+        expect(data).to be_nil
+        expect(error_message).to eq 'You are not authorized to perform this action'
+      end
+    end
+
+    context 'without token' do
       let(:token) { '' }
 
       it 'fails' do

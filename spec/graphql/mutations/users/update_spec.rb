@@ -8,11 +8,11 @@ RSpec.describe Mutations::Users::Update, type: :request do
   end
 
   let(:user) { create(:user) }
+  let(:token) { user.generate_token }
+  let(:unauthorized_user) { create(:user) }
 
   describe '.resolve' do
     context 'authorized' do
-      let(:token) { user.generate_token }
-
       context 'valid params' do
         let(:variables) { { userId: user.id, email: 'arianna@email.com' } }
 
@@ -43,6 +43,22 @@ RSpec.describe Mutations::Users::Update, type: :request do
     end
 
     context 'unauthorized' do
+      let(:variables) { { userId: unauthorized_user.id, email: 'arianna@email.com' } }
+
+      it 'returns error message' do
+        execute
+
+        json = JSON.parse(response.body)
+
+        data = json.dig('data', 'updateUser')
+        error_message = json.dig('errors').first['message']
+
+        expect(data).to be_nil
+        expect(error_message).to eq 'You are not authorized to perform this action'
+      end
+    end
+
+    context 'without a token' do
       let(:token) { '' }
       let(:variables) { { userId: user.id, email: 'arianna@email.com' } }
 
